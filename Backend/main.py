@@ -4,14 +4,31 @@ import openai
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 import time
+import pyrebase
+from firebase import firebase
+
+config = {
+    "apiKey": "AIzaSyD1dsZ590gGskokLvT40AlvpBfClaEAECk",
+    "authDomain": "yemek-asistani.firebaseapp.com",
+    "projectId": "yemek-asistani",
+    "storageBucket": "yemek-asistani.appspot.com",
+    "messagingSenderId": "335909231649",
+    "appId": "1:335909231649:web:2da483d625eed3339bd760",
+    "measurementId": "G-T86BVWV371",
+    "databaseURL": ""
+}
+
+firebaseAuth = pyrebase.initialize_app(config)
+auth = firebaseAuth.auth()
+firebase = firebase.FirebaseApplication('https://yemek-asistani-default-rtdb.europe-west1.firebasedatabase.app/', None)
 
 
-clientOpenAi = openai.OpenAI(api_key="")
-asisstantId = ""
+clientOpenAi = openai.OpenAI(api_key="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")
+asisstantId = "asst_usWVBhJ0xAD3yDrQ2lKpmWZL"
 
 qdrant_client = QdrantClient(
     "ead20606-651e-4ea2-a592-252e7ca6ed1e.europe-west3-0.gcp.cloud.qdrant.io",
-    api_key="QdrantApi",
+    api_key="KDLJ23vjZkSUbyFXOXSytHH61po__Y61dNuI5p4OsfzGP_KD9SbF5Q",
 )
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -22,8 +39,8 @@ user = ""
 
 @app.route("/")
 def anasayfa():
-    mesaj = "Hoşgeldiniz"
-    return mesaj
+    result = firebase.get('/diyetler', None)
+    return str(result)
 
 # Burada kullanıcı kayıt işlemleri gerçekleştirilecek.
 # Her kullanıcı'ya bir thread oluşturulacak ve id'si database'e yazılacak.

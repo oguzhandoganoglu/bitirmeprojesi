@@ -1,2 +1,6 @@
 openai
 flask
+qdrant_client
+sentence_transformers
+flask_cors
+firebase_admin
